@@ -9,9 +9,60 @@ import com.orm.dsl.Unique;
 
 
 public class ProductLot extends SugarRecord {
-    @Unique
-    String dateAdded;
-    int quantity;
-    Product product;
-    double unitCost;
+    private Long dateAdded;
+    private int quantity;
+    private Product product;
+    private Long productId;
+    private double unitCapitalPrice;
+
+    public ProductLot(){
+
+    }
+
+    public ProductLot(long dateAdded, int quantity, long productId, double unitCapitalPrice){
+        this.dateAdded = dateAdded;
+        this.quantity = quantity;
+        this.productId = productId;
+        this.unitCapitalPrice = unitCapitalPrice;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        productId = productId;
+    }
+
+    public Long getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Long dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public double getUnitCapitalPrice() {
+        return unitCapitalPrice;
+    }
+
+    public void setUnitCapitalPrice(double unitCapitalPrice) {
+        this.unitCapitalPrice = unitCapitalPrice;
+    }
 }

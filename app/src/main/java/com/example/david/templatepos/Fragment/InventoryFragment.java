@@ -3,6 +3,7 @@ package com.example.david.templatepos.Fragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -18,6 +19,8 @@ import android.widget.ListView;
 
 import com.example.david.templatepos.Adapter.InventoryAdapter;
 import com.example.david.templatepos.Data.Product;
+import com.example.david.templatepos.Data.Sale;
+import com.example.david.templatepos.MainActivity;
 import com.example.david.templatepos.R;
 import com.orm.query.Condition;
 import com.orm.query.Select;
@@ -45,6 +48,8 @@ public class InventoryFragment extends UpdatableFragment {
     @BindView(R.id.productRecycleView)
     RecyclerView rvProduct;
 
+    ViewPager viewPager;
+    MainActivity main;
 
     private List<Map<String, String>> inventoryList;
     private UpdatableFragment saleFragment;
@@ -58,6 +63,8 @@ public class InventoryFragment extends UpdatableFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_menu_fragment, container, false);
         ButterKnife.bind(this, view);
+        main = (MainActivity) getActivity();
+        viewPager = main.getViewPager();
         return view;
     }
 
@@ -94,6 +101,20 @@ public class InventoryFragment extends UpdatableFragment {
         search();
     }
 
+    public void addItemToSale(Sale sale){
+        List<Sale> resultName = Sale.find(Sale.class, "product_Id = ?", String.valueOf(sale.getProductId()));
+        if(resultName.size()==0){
+            sale.save();
+        }else{
+            Sale s = resultName.get(0);
+            s.setQuantity(s.getQuantity()+1);
+            s.save();
+        }
+
+        saleFragment.update();
+        viewPager.setCurrentItem(1);
+    }
+
     @Override
     public void update() {
         search();
@@ -102,7 +123,6 @@ public class InventoryFragment extends UpdatableFragment {
     public void showPopup() {
         AddProductDialogFragment newFragment = new AddProductDialogFragment(InventoryFragment.this);
         newFragment.show(getFragmentManager(), "");
-
     }
 
     private void search(){
@@ -126,7 +146,8 @@ public class InventoryFragment extends UpdatableFragment {
                     .list();
 
             System.out.println("CHECK SIZEL "+ resultBarcode.size());
-            showList(resultBarcode);
+            resultName.addAll(resultBarcode);
+            showList(resultName);
             if (resultBarcode.isEmpty()) {
 
             }
@@ -134,8 +155,10 @@ public class InventoryFragment extends UpdatableFragment {
     }
 
     private void showList(List<Product> productList){
-        InventoryAdapter inventoryAdapter = new InventoryAdapter(getActivity(),productList);
+        InventoryAdapter inventoryAdapter = new InventoryAdapter(getActivity(),productList,this);
         rvProduct.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvProduct.setAdapter(inventoryAdapter);
     }
+
+
 }

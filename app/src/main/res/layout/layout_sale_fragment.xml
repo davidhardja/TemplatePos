@@ -42,7 +42,7 @@
             <TableRow
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.4"
                 android:background="#FFFFFF"
                 android:paddingBottom="1dip"
                 android:paddingLeft="1dip"
@@ -106,13 +106,37 @@
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" />
             </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="0.2"
+                android:background="#FFFFFF"
+                android:paddingBottom="1dip"
+                android:paddingLeft="1dip"
+                android:paddingRight="1dip"
+                android:paddingTop="1dip" >
+
+                <TextView
+                    android:id="@+id/subtotal"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.75"
+                    android:background="#33B5E5"
+                    android:gravity="center"
+                    android:paddingRight="3dp"
+                    android:textSize="12sp"
+                    android:text="@string/sub_total"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold" />
+            </TableRow>
         </LinearLayout>
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/sale_List"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-        </ListView>
+        </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
     <LinearLayout

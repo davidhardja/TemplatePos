@@ -39,7 +39,6 @@ public class AddProductDialogFragment extends DialogFragment {
 
 
     public AddProductDialogFragment(UpdatableFragment fragment) {
-
         super();
         this.fragment = fragment;
     }
@@ -65,7 +64,7 @@ public class AddProductDialogFragment extends DialogFragment {
                     Toast.makeText(getActivity().getBaseContext(), getString(R.string.please_input_all), Toast.LENGTH_SHORT).show();
                 }else{
                     if(Product.findById(Product.class, Integer.valueOf(etBarcodeBox.getText().toString()))==null){
-                        Product product = new Product(etNameBox.getText().toString(),etBarcodeBox.getText().toString(),Double.valueOf(etBarcodeBox.getText().toString()));
+                        Product product = new Product(etNameBox.getText().toString(),etBarcodeBox.getText().toString(),Double.valueOf(etPriceBox.getText().toString()));
                         product.save();
                         Toast.makeText(getActivity().getBaseContext(),
                                 getString(R.string.success) + ", "

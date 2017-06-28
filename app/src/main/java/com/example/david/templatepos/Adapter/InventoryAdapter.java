@@ -11,9 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.david.templatepos.Data.Product;
+import com.example.david.templatepos.Data.Sale;
+import com.example.david.templatepos.Fragment.InventoryFragment;
 import com.example.david.templatepos.ProductDetailActivity;
 import com.example.david.templatepos.R;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,14 +26,15 @@ import butterknife.ButterKnife;
  * Created by David on 10/06/2017.
  */
 
-public class InventoryAdapter extends RecyclerView.Adapter implements View.OnClickListener{
-
+public class InventoryAdapter extends RecyclerView.Adapter{
+    public InventoryFragment inventoryFragment;
     public Context context;
     public List<Product> listProduct;
 
-    public InventoryAdapter(Context context, List<Product> products) {
+    public InventoryAdapter(Context context, List<Product> products, InventoryFragment inventory) {
         this.listProduct = products;
         this.context = context;
+        this.inventoryFragment = inventory;
     }
 
     @Override
@@ -48,11 +52,6 @@ public class InventoryAdapter extends RecyclerView.Adapter implements View.OnCli
     @Override
     public int getItemCount() {
         return listProduct.size();
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -82,6 +81,10 @@ public class InventoryAdapter extends RecyclerView.Adapter implements View.OnCli
                         ProductDetailActivity.class);
                 newActivity.putExtra("id", listProduct.get(getAdapterPosition()).getId());
                 context.startActivity(newActivity);
+            }else{
+                Product p = listProduct.get(getAdapterPosition());
+                Sale sale = new Sale(p.getId(),p.getName(),1,p.getUnitPrice(),new Date().getTime());
+                inventoryFragment.addItemToSale(sale);
             }
         }
     }

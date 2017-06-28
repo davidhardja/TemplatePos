@@ -1,7 +1,6 @@
 package com.example.david.templatepos;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -11,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.example.david.templatepos.Adapter.ViewPagerAdapter;
@@ -23,7 +21,7 @@ import butterknife.ButterKnife;
  * Created by David on 07/06/2017.
  */
 
-public class MainViewPagerActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity {
     @BindView(R.id.pager)
     ViewPager pager;
     ViewPagerAdapter viewPagerAdapter;
@@ -44,6 +42,10 @@ public class MainViewPagerActivity extends FragmentActivity {
                 });
         pager.setCurrentItem(1);
 
+    }
+
+    public ViewPager getViewPager() {
+        return pager;
     }
 
     private void initiateActionBar() {
@@ -80,7 +82,7 @@ public class MainViewPagerActivity extends FragmentActivity {
 
     private void openRemoveDialog() {
         AlertDialog.Builder quitDialog = new AlertDialog.Builder(
-                MainViewPagerActivity.this);
+                MainActivity.this);
         quitDialog.setTitle(getString(R.string.dialog_remove_product));
         quitDialog.setPositiveButton(getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override

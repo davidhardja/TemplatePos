@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.david.templatepos.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by David on 07/06/2017.
@@ -32,6 +33,7 @@ public class ReportFragment extends UpdatableFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.layout_fragment_report, container, false);
+        ButterKnife.bind(this, view);
         return view;
     }
 
