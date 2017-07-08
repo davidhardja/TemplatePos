@@ -8,16 +8,24 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.david.templatepos.Adapter.ProductLotAdapter;
 import com.example.david.templatepos.Data.Product;
+import com.example.david.templatepos.Data.ProductLot;
 import com.example.david.templatepos.Fragment.AddProductLotDialogFragment;
+import com.example.david.templatepos.Tools.DatabaseHelper;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +44,7 @@ public class ProductDetailActivity extends Activity {
     @BindView(R.id.barcodeBox)
     EditText etBarcodeBox;
     @BindView(R.id.stockSumBox)
-    TextView etStockSumBox;
+    TextView tvStockSumBox;
     @BindView(R.id.submitEditButton)
     Button bSubmiitEditButton;
     @BindView(R.id.cancelEditButton)
@@ -48,10 +56,12 @@ public class ProductDetailActivity extends Activity {
     @BindView(android.R.id.tabhost)
     TabHost tabHost;
 
+    ProductLotAdapter productLotAdapter;
+    List<ProductLot> productLotList = new ArrayList<>();
+
     Dialog dialog;
     AlertDialog.Builder popDialog;
     EditText etCostBox;
-    EditText etQuantityBox;
     Button bConfirm;
     Button bClear;
 
@@ -81,9 +91,21 @@ public class ProductDetailActivity extends Activity {
                 .setContent(R.id.tab2));
         tabHost.setCurrentTab(0);
 
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                showList();
+            }
+        });
+
+        productLotAdapter = new ProductLotAdapter(this,productLotList);
+        rvStockList.setLayoutManager(new LinearLayoutManager(this));
+        rvStockList.setAdapter(productLotAdapter);
+
         etNameBox.setText(product.getName());
         etBarcodeBox.setText(product.getBarcode());
         etPriceBox.setText(String.valueOf(product.getUnitPrice()));
+        tvStockSumBox.setText(String.valueOf(DatabaseHelper.getTotalQuantity(product.getId())));
 
         bCancelEditButton.setVisibility(View.INVISIBLE);
         bSubmiitEditButton.setVisibility(View.INVISIBLE);
@@ -111,6 +133,8 @@ public class ProductDetailActivity extends Activity {
                 cancelEdit();
             }
         });
+
+        showList();
     }
 
     @SuppressLint("NewApi")
@@ -120,6 +144,24 @@ public class ProductDetailActivity extends Activity {
         actionBar.setTitle(getString(R.string.product_detail));
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#33B5E5")));
 
+    }
+
+    private void showList() {
+        productLotList.clear();
+        productLotList.addAll(ProductLot.find(ProductLot.class, "product_Id = ?", String.valueOf(product.getId())));
+        productLotAdapter.notifyDataSetChanged();
+        rvStockList.setAdapter(productLotAdapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        update();
+    }
+
+    public void update(){
+        tvStockSumBox.setText(String.valueOf(DatabaseHelper.getTotalQuantity(product.getId())));
+        showList();
     }
 
     private void edit() {

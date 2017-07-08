@@ -12,6 +12,8 @@ public class DataTimeStrategy {
 
     private static Locale locale;
     private static SimpleDateFormat dateFormat;
+    public static String format = "dd/MM/yyyy hh:mm:ss";
+    public static String formatReport = "dd/MM/yyyy";
 
     private DataTimeStrategy() {
         // Static class
@@ -51,6 +53,39 @@ public class DataTimeStrategy {
      */
     public static String getSQLDateFormat(Calendar instance) {
         return dateFormat.format(instance.getTime()).toString().substring(0,10);
+    }
+
+    public static String getDate(long milliSeconds, String dateFormat)
+    {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
+    }
+
+    public static String getDate(long milliSeconds)
+    {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
+    }
+
+    public static String getDateReport(long milliSeconds)
+    {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(formatReport);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
     }
 
 }

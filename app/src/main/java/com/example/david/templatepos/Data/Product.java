@@ -15,6 +15,7 @@ public class Product extends SugarRecord {
     private String name;
     private String barcode;
     private Double unitPrice;
+    private Integer quantityTotal;
 
     public Product(){
 
@@ -25,6 +26,19 @@ public class Product extends SugarRecord {
         this.name = name;
         this.barcode = barcode;
         this.unitPrice = unitPrice;
+        this.quantityTotal = 0;
+    }
+
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public Integer getQuantityTotal() {
+        return quantityTotal;
+    }
+
+    public void setQuantityTotal(Integer quantityTotal) {
+        this.quantityTotal = quantityTotal;
     }
 
     public String getName() {

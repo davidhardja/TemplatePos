@@ -14,6 +14,7 @@ import com.example.david.templatepos.Data.ProductLot;
 import com.example.david.templatepos.ProductDetailActivity;
 import com.example.david.templatepos.R;
 import com.example.david.templatepos.Tools.DataTimeStrategy;
+import com.example.david.templatepos.Tools.DatabaseHelper;
 
 import java.util.Date;
 
@@ -69,8 +70,10 @@ public class AddProductLotDialogFragment extends DialogFragment {
                             productDetailActivity.getProduct().getId(),
                             Double.parseDouble(etCostBox.getText().toString()));
                     productLot.save();
+                    DatabaseHelper.setQuantityTotal(productDetailActivity.getProduct().getId(),productLot.getQuantity());
                     etCostBox.setText("");
                     etQuantityBox.setText("");
+                    productDetailActivity.update();
                     AddProductLotDialogFragment.this.dismiss();
                 }
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.david.templatepos.Adapter.InventoryAdapter;
 import com.example.david.templatepos.Adapter.SaleAdapter;
@@ -93,11 +94,16 @@ public class SaleFragment extends UpdatableFragment {
         bEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(sales.size()>0){
+                    PaymentDialogFragment newFragment = new PaymentDialogFragment(SaleFragment.this, reportFragment);
+                    newFragment.show(getFragmentManager(), "");
+                }else{
+                    Toast.makeText(getActivity().getBaseContext() , getString(R.string.hint_empty_sale), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        saleAdapter = new SaleAdapter(getActivity(),sales);
+        saleAdapter = new SaleAdapter(getActivity(),sales,SaleFragment.this,reportFragment);
 
         rvSale.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvSale.setAdapter(saleAdapter);
@@ -108,6 +114,12 @@ public class SaleFragment extends UpdatableFragment {
     public void onResume() {
         super.onResume();
         update();
+    }
+
+    public void showEditPopup(Sale sale){
+        EditSaleDialogFragment newFragment = new EditSaleDialogFragment(SaleFragment.this, reportFragment,sale);
+        newFragment.show(getFragmentManager(), "");
+
     }
 
     private void showConfirmClearDialog() {

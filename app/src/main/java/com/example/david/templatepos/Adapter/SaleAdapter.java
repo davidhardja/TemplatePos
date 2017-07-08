@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.david.templatepos.Data.Sale;
+import com.example.david.templatepos.Fragment.EditSaleDialogFragment;
+import com.example.david.templatepos.Fragment.ReportFragment;
+import com.example.david.templatepos.Fragment.SaleFragment;
+import com.example.david.templatepos.Fragment.UpdatableFragment;
 import com.example.david.templatepos.R;
 
 import java.util.List;
@@ -23,10 +27,14 @@ public class SaleAdapter extends RecyclerView.Adapter {
 
     public Context context;
     public List<Sale> listSale;
+    public SaleFragment saleFragment;
+    public ReportFragment reportFragment;
 
-    public SaleAdapter(Context context, List<Sale> sales) {
+    public SaleAdapter(Context context, List<Sale> sales,UpdatableFragment saleFragment, UpdatableFragment reportFragment) {
         this.listSale = sales;
         this.context = context;
+        this.saleFragment = (SaleFragment) saleFragment;
+        this.reportFragment = (ReportFragment) reportFragment;
 
     }
 
@@ -60,6 +68,7 @@ public class SaleAdapter extends RecyclerView.Adapter {
         ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
+            v.setOnClickListener(this);
         }
 
         public void bind(Sale sale) {
@@ -71,7 +80,7 @@ public class SaleAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View v) {
-
+            saleFragment.showEditPopup(listSale.get(getAdapterPosition()));
         }
     }
 }
